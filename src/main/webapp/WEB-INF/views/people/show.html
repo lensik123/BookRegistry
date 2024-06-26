@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Show Person</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 600px;
+      margin-top: 50px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .info {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      color: #555;
+    }
+    .no-books, .books-list {
+      margin-bottom: 20px;
+    }
+    .books-list ul {
+      list-style: none;
+      padding: 0;
+    }
+    .books-list li {
+      margin-bottom: 10px;
+    }
+    .books-list li span {
+      color: #007BFF;
+    }
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .action-buttons a, .action-buttons form {
+      flex: 1;
+      margin: 0 10px;
+    }
+    .action-buttons a, .action-buttons input[type="submit"] {
+      display: block;
+      padding: 10px;
+      background-color: #007BFF;
+      color: #fff;
+      text-align: center;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 1.2em;
+    }
+    .action-buttons a:hover, .action-buttons input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    .delete-button {
+      background-color: #dc3545;
+    }
+    .delete-button:hover {
+      background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Show Person</h1>
+  <p class="info" th:text="${person.getFullName() + ', ' + person.getYearOfBirth()}">VALUE</p>
+  <hr/>
+
+  <div th:if="${noBooks}" class="no-books">
+    <span>Человек пока не взял ни одной книги</span>
+  </div>
+
+  <div th:if="${books}" class="books-list">
+    <span>Книги:</span>
+    <ul>
+      <li th:each="book : ${books}">
+        <span th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"></span>
+      </li>
+    </ul>
+  </div>
+
+  <hr/>
+
+  <div class="action-buttons">
+    <a th:href="@{/people/{id}/edit(id=${person.getId()})}">Edit</a>
+
+    <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+      <input type="submit" value="Delete" class="delete-button"/>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
